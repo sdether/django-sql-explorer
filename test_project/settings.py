@@ -1,6 +1,5 @@
-import django
 import os
-import djcelery
+
 SECRET_KEY = 'shhh'
 DEBUG = True
 STATIC_URL = '/static/'
@@ -60,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -68,8 +67,19 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'explorer',
-    'djcelery'
-)
+]
+
+try:
+    import djcelery
+    INSTALLED_APPS.append('djcelery')
+    TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
+    djcelery.setup_loader()
+    CELERY_ALWAYS_EAGER = True
+    BROKER_BACKEND = 'memory'
+
+except ImportError:
+    pass
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -82,12 +92,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
-
-TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
-
-djcelery.setup_loader()
-CELERY_ALWAYS_EAGER = True
-BROKER_BACKEND = 'memory'
 
 # Explorer-specific
 
