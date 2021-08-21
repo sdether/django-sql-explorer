@@ -162,13 +162,8 @@ def get_valid_connection(alias=None):
     from explorer.connections import connections
 
     if not alias:
-        return connections[app_settings.EXPLORER_DEFAULT_CONNECTION]
+        return connections.default_connection
 
-    if alias not in connections:
-        raise InvalidExplorerConnectionException(
-            f'Attempted to access connection {alias}, '
-            f'but that is not a registered Explorer connection.'
-        )
     return connections[alias]
 
 

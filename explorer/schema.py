@@ -1,12 +1,12 @@
 from django.core.cache import cache
+from explorer.connections import connections
 
 from explorer.app_settings import (
     EXPLORER_SCHEMA_INCLUDE_TABLE_PREFIXES,
     EXPLORER_SCHEMA_EXCLUDE_TABLE_PREFIXES,
     EXPLORER_SCHEMA_INCLUDE_VIEWS,
     ENABLE_TASKS,
-    EXPLORER_ASYNC_SCHEMA,
-    EXPLORER_CONNECTIONS
+    EXPLORER_ASYNC_SCHEMA
 )
 from explorer.tasks import build_schema_cache_async
 from explorer.utils import get_valid_connection
@@ -96,5 +96,5 @@ def build_schema_info(connection_alias):
 
 def build_async_schemas():
     if do_async():
-        for c in EXPLORER_CONNECTIONS:
+        for c in connections.keys():
             schema_info(c)

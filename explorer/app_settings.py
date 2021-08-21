@@ -1,7 +1,7 @@
 from django.conf import settings
 from pydoc import locate
 
-# The 'correct' configuration for Explorer looks like:
+# The 'correct' configuration for the default Explorer looks like:
 
 # EXPLORER_CONNECTIONS = {
 #   'Original Database': 'my_important_database_readonly_connection',
@@ -9,9 +9,8 @@ from pydoc import locate
 # }
 # EXPLORER_DEFAULT_CONNECTION = 'my_important_database_readonly_connection'
 
-EXPLORER_CONNECTIONS = getattr(settings, 'EXPLORER_CONNECTIONS', {})
-EXPLORER_DEFAULT_CONNECTION = getattr(
-    settings, 'EXPLORER_DEFAULT_CONNECTION', None
+EXPLORER_CONNECTION_REPOSITORY = getattr(
+    settings, 'EXPLORER_CONNECTION_REPOSITORY', None
 )
 
 # Change the behavior of explorer
@@ -109,7 +108,7 @@ EXPLORER_GET_USER_QUERY_VIEWS = lambda: getattr(  # noqa
 EXPLORER_TOKEN_AUTH_ENABLED = lambda: getattr(  # noqa
     settings, 'EXPLORER_TOKEN_AUTH_ENABLED', False
 )
-EXPLORER_NO_PERMISSION_VIEW = lambda: locate(# noqa
+EXPLORER_NO_PERMISSION_VIEW = lambda: locate(  # noqa
     getattr(
         settings,
         'EXPLORER_NO_PERMISSION_VIEW',
